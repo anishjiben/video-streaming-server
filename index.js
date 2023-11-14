@@ -97,21 +97,6 @@ app.get("/segments", (req, res) => {
   res.send(mediaFile);
 });
 
-// Serve video segments
-app.get("/video/:segmentNumber.m4s", async (req, res) => {
-  try {
-    const segmentNumber = parseInt(req.params.segmentNumber, 10);
-    const segmentFile = path.join(outputPath, `seg-${segmentNumber}.m4s`);
-
-    const segmentData = await readFile(segmentFile);
-    res.setHeader("Content-Type", "video/mp4");
-    res.send(segmentData);
-  } catch (error) {
-    console.error(error);
-    res.status(404).send("Segment not found");
-  }
-});
-
 async function readFile(filePath) {
   return new Promise((resolve, reject) => {
     fs.readFile(filePath, "utf8", (error, data) => {
